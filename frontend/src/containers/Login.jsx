@@ -1,31 +1,47 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import {FcGoogle} from 'react-icons/fc'
 import shareVideo from '../assets/share.mp4'
 import logo from '../assets/logowhite.png'
 import jwtDecode from 'jwt-decode'
+import {client} from '../client'
 
 const Login = () => {
 
-  const [user, setUser] = useState({})
+  const navigate = useNavigate()
 
   function handleCallbackResponse(response){
     var userObject = jwtDecode(response.credential)
-    setUser(userObject)
+    const {given_name, family_name, email, picture, sub} = userObject
+    //setUser(userObject)
+
+    const doc = {
+      _id: sub,
+      _type: 'user',
+      userName: given_name + ' ' + family_name,
+      image: picture,
+    }
+
+    client.createIfNotExists(doc)
+    .then((res) => {
+      navigate('/', {replace: true});
+    })
+
   }
 
   useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: process.env.REACT_APP_GOOGLE_API_TOKEN,
-      callback: handleCallbackResponse,
-      auto_select: true,
-    });
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      { theme: "outline", size: "large" }
-    );
+    if (typeof google !== 'undefined') {
+      /* global google */
+      google.accounts.id.initialize({
+        client_id: process.env.REACT_APP_GOOGLE_API_TOKEN,
+        callback: handleCallbackResponse,
+        auto_select: true,
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("signInDiv"),
+        { theme: "outline", size: "large" }
+      );
+    }
   }, []);
 
 
