@@ -13,8 +13,7 @@ const Login = () => {
   function handleCallbackResponse(response){
     var userObject = jwtDecode(response.credential)
     const {given_name, family_name, email, picture, sub} = userObject
-    //setUser(userObject)
-
+    
     const doc = {
       _id: sub,
       _type: 'user',
@@ -22,9 +21,14 @@ const Login = () => {
       image: picture,
     }
 
+    localStorage.setItem('userId', JSON.stringify(doc._id))
+
     client.createIfNotExists(doc)
     .then((res) => {
-      navigate('/', {replace: true});
+      navigate('/', {
+        replace: true,
+        userId: doc._id,
+      });
     })
 
   }
