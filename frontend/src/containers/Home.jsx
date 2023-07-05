@@ -13,10 +13,10 @@ import { fetchUser } from '../utils/fetchUser'
 
 const Home = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false)
-  const [user, setUser] = useState(null);
+  //const [user, setUser] = useState(null);
   const scrollRef = useRef(null);  
   const userObj = fetchUser();
-
+  
   // useEffect(() => {
   //   const query = userQuery(userObj._id);
   //   client.fetch(query)
@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <div className="flex bg-gray-50 md:flex-row flex-col h-screen transaction-height duration-75 ease-out">
       <div className="hidden md:flex h-screen flex-initial">
-        <Sidebar user={user && user}/>
+        <Sidebar userObj={userObj && userObj}/>
       </div>
       <div className="flex md:hidden flex-row">
         <div className='p-2 w-full flex flex-row justify-between items-center shadow-md'>
@@ -47,8 +47,8 @@ const Home = () => {
             <img src={logo} alt="logo" className="w-28"/>
           </Link>
           
-          <Link to={`user-profile/${user?._id}`}>
-            <img src={user?.image} alt="logo" className="w-12 rounded-full"/>
+          <Link to={`user-profile/${userObj?._id}`}>
+            <img src={userObj?.image} alt="logo" className="w-12 rounded-full"/>
           </Link>
         </div>
       </div>
@@ -61,13 +61,13 @@ const Home = () => {
               onClick = { () => setToggleSidebar(false)}
             />
           </div>
-          <Sidebar user={user && user} closeToggle={setToggleSidebar}/>
+          <Sidebar userObj={userObj && userObj} closeToggle={setToggleSidebar}/>
         </div>
       )}
       <div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
         <Routes>
           <Route path='/user-profile/:userId' element={<UserProfile />}/>
-          <Route path='/' element={<Pins user={user && user}/>}/>
+          <Route path='/' element={<Pins userObj={userObj && userObj}/>}/>
         </Routes>
       </div>
     </div>

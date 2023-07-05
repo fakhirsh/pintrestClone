@@ -17,8 +17,8 @@ const categories = [
   {name: 'Other'},
 ]
 
-const Sidebar = ({user, closeToggle}) => {
-  
+const Sidebar = ({userObj, closeToggle}) => {
+
   const handleCloseSidebar = () => {
     if(closeToggle)
       closeToggle(false)
@@ -57,14 +57,14 @@ const Sidebar = ({user, closeToggle}) => {
           ))}
         </div>
       </div>
-      {user && (
+      {userObj && (
         <Link
-          to={`/user-profile/${user._id}`}
+          to={`/user-profile/${userObj._id}`}
           className='flex y-5 mb-3 items-center gap-2 p-2 bg-white rounded-lg shadow-lg'
           onClick={handleCloseSidebar}
         >
-          <img src={user.image} alt="user-profile" className="w-10 h-10 rounded-full"/>
-          <p>{user.userName}</p>
+          <img src={userObj.image} alt="user-profile" className="w-10 h-10 rounded-full"/>
+          <p>{userObj.userName}</p>
         </Link>
       )}
     </div>
