@@ -21,16 +21,12 @@ const Login = () => {
       image: picture,
     }
 
-    localStorage.setItem('userId', JSON.stringify(doc._id))
+    localStorage.setItem('userObj', JSON.stringify(doc))
 
     client.createIfNotExists(doc)
     .then((res) => {
-      navigate('/', {
-        replace: true,
-        userId: doc._id,
-      });
-    })
-
+      navigate('/', {})
+    });
   }
 
   useEffect(() => {
