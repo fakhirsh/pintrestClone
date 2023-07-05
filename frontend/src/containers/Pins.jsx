@@ -16,7 +16,7 @@ const Pins = ({userObj}) => {
             setSearchTerm={setSearchTerm}
             userObj={userObj}
           />
-          
+
           <div className='h-full'>
             <Routes>
               <Route path='/' element={<Feed />} />
